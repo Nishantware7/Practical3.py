@@ -1,0 +1,171 @@
+
+import pandas as pd
+df=pd.read_csv("laptop_prices.csv")
+print(df)
+         Brand    Processor  RAM (GB)    Storage                 GPU  \
+0        Apple  AMD Ryzen 3        64  512GB SSD     Nvidia GTX 1650   
+1        Razer  AMD Ryzen 7         4    1TB SSD     Nvidia RTX 3080   
+2         Asus     Intel i5        32    2TB SSD     Nvidia RTX 3060   
+3       Lenovo     Intel i5         4  256GB SSD     Nvidia RTX 3080   
+4        Razer     Intel i3         4  256GB SSD  AMD Radeon RX 6600   
+...        ...          ...       ...        ...                 ...   
+11763     Acer     Intel i3         4    2TB SSD     Nvidia RTX 2060   
+11764     Asus     Intel i3         4    2TB SSD  AMD Radeon RX 6800   
+11765    Razer  AMD Ryzen 9         4    2TB SSD  AMD Radeon RX 6600   
+11766  Samsung  AMD Ryzen 7        16  512GB SSD          Integrated   
+11767  Samsung     Intel i7         8  256GB SSD     Nvidia RTX 3080   
+
+       Screen Size (inch) Resolution  Battery Life (hours)  Weight (kg)  \
+0                    17.3  2560x1440                   8.9         1.42   
+1                    14.0   1366x768                   9.4         2.57   
+2                    13.3  3840x2160                   8.5         1.74   
+3                    13.3   1366x768                  10.5         3.10   
+4                    16.0  3840x2160                   5.7         3.38   
+...                   ...        ...                   ...          ...   
+11763                17.3   1366x768                  11.5         1.58   
+11764                16.0   1366x768                   9.5         2.14   
+11765                15.6  2560x1440                   8.2         2.05   
+11766                13.3  1920x1080                   7.5         1.48   
+11767                17.3  2560x1440                   6.4         2.45   
+
+      Operating System  Price ($)  
+0              FreeDOS    3997.07  
+1                Linux    1355.78  
+2              FreeDOS    2673.07  
+3              Windows     751.17  
+4                Linux    2059.83  
+...                ...        ...  
+11763            macOS     704.82  
+11764            Linux     775.59  
+11765            Linux    2789.46  
+11766            macOS    1067.13  
+11767          FreeDOS    1579.55  
+
+[11768 rows x 11 columns]
+df.describe()
+RAM (GB)	Screen Size (inch)	Battery Life (hours)	Weight (kg)	Price ($)
+count	11768.000000	11768.000000	11768.000000	11768.000000	11768.000000
+mean	24.852821	15.212305	8.027855	2.341117	2183.571608
+std	21.762567	1.436997	2.305400	0.667921	1316.886132
+min	4.000000	13.300000	4.000000	1.200000	279.570000
+25%	8.000000	14.000000	6.000000	1.760000	1272.045000
+50%	16.000000	15.600000	8.000000	2.340000	1840.865000
+75%	32.000000	16.000000	10.000000	2.910000	2698.370000
+max	64.000000	17.300000	12.000000	3.500000	10807.880000
+df.min()
+Brand                                 Acer
+Processor                      AMD Ryzen 3
+RAM (GB)                                 4
+Storage                            1TB HDD
+GPU                     AMD Radeon RX 6600
+Screen Size (inch)                    13.3
+Resolution                        1366x768
+Battery Life (hours)                   4.0
+Weight (kg)                            1.2
+Operating System                   FreeDOS
+Price ($)                           279.57
+dtype: object
+df.max()
+Brand                           Samsung
+Processor                      Intel i9
+RAM (GB)                             64
+Storage                       512GB SSD
+GPU                     Nvidia RTX 3080
+Screen Size (inch)                 17.3
+Resolution                    3840x2160
+Battery Life (hours)               12.0
+Weight (kg)                         3.5
+Operating System                  macOS
+Price ($)                      10807.88
+dtype: object
+import numpy as np
+df.mean(numeric_only=True)
+RAM (GB)                  24.852821
+Screen Size (inch)        15.212305
+Battery Life (hours)       8.027855
+Weight (kg)                2.341117
+Price ($)               2183.571608
+dtype: float64
+df.median(numeric_only=True)
+RAM (GB)                  16.000
+Screen Size (inch)        15.600
+Battery Life (hours)       8.000
+Weight (kg)                2.340
+Price ($)               1840.865
+dtype: float64
+df.mode(numeric_only=True)
+RAM (GB)	Screen Size (inch)	Battery Life (hours)	Weight (kg)	Price ($)
+0	32.0	14.0	11.3	3.4	1278.94
+1	NaN	NaN	NaN	NaN	2136.00
+df.std(numeric_only=True)
+RAM (GB)                  21.762567
+Screen Size (inch)         1.436997
+Battery Life (hours)       2.305400
+Weight (kg)                0.667921
+Price ($)               1316.886132
+dtype: float64
+df.groupby(['RAM (GB)'])['Price ($)'].mean()
+RAM (GB)
+4     1387.705468
+8     1551.721969
+16    1855.332740
+32    2486.663017
+64    3625.575197
+Name: Price ($), dtype: float64
+df_u=df.rename(columns= {'RAM (GB)':'RAM'},inplace=False)
+df_u['RAM'].mean()
+np.float64(24.852821210061183)
+df_u.groupby(['Price ($)']).RAM.mean()
+Price ($)
+279.57       4.0
+332.71       4.0
+342.89       4.0
+354.84       4.0
+356.10       4.0
+            ... 
+10646.06    64.0
+10735.12    64.0
+10757.56    64.0
+10774.82    64.0
+10807.88    64.0
+Name: RAM, Length: 11558, dtype: float64
+pip install scikit-learn
+Defaulting to user installation because normal site-packages is not writeable
+Collecting scikit-learn
+  Using cached scikit_learn-1.6.1-cp312-cp312-win_amd64.whl.metadata (15 kB)
+Requirement already satisfied: numpy>=1.19.5 in c:\users\welcome\appdata\roaming\python\python312\site-packages (from scikit-learn) (2.2.2)
+Requirement already satisfied: scipy>=1.6.0 in c:\users\welcome\appdata\roaming\python\python312\site-packages (from scikit-learn) (1.15.1)
+Collecting joblib>=1.2.0 (from scikit-learn)
+  Using cached joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting threadpoolctl>=3.1.0 (from scikit-learn)
+  Using cached threadpoolctl-3.5.0-py3-none-any.whl.metadata (13 kB)
+Using cached scikit_learn-1.6.1-cp312-cp312-win_amd64.whl (11.1 MB)
+Using cached joblib-1.4.2-py3-none-any.whl (301 kB)
+Using cached threadpoolctl-3.5.0-py3-none-any.whl (18 kB)
+Installing collected packages: threadpoolctl, joblib, scikit-learn
+Successfully installed joblib-1.4.2 scikit-learn-1.6.1 threadpoolctl-3.5.0
+Note: you may need to restart the kernel to use updated packages.
+[notice] A new release of pip is available: 24.0 -> 25.0
+[notice] To update, run: C:\Program Files\Python312\python.exe -m pip install --upgrade pip
+from sklearn import preprocessing
+enc = preprocessing.OneHotEncoder()
+enc_df = pd.DataFrame(enc.fit_transform(df_u[['RAM']]).toarray())
+enc_df
+0	1	2	3	4
+0	0.0	0.0	0.0	0.0	1.0
+1	1.0	0.0	0.0	0.0	0.0
+2	0.0	0.0	0.0	1.0	0.0
+3	1.0	0.0	0.0	0.0	0.0
+4	1.0	0.0	0.0	0.0	0.0
+...	...	...	...	...	...
+11763	1.0	0.0	0.0	0.0	0.0
+11764	1.0	0.0	0.0	0.0	0.0
+11765	1.0	0.0	0.0	0.0	0.0
+11766	0.0	0.0	1.0	0.0	0.0
+11767	0.0	1.0	0.0	0.0	0.0
+11768 rows × 5 columns
+
+skewness = df_u['RAM'].skew()
+print(skewness)
+0.8842650453384933
+ 
